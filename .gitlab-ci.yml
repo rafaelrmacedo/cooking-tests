@@ -1,0 +1,8 @@
+stages:
+  - download_backend_image
+  - run_tests
+
+download_backend_image:
+
+
+run_tests:
