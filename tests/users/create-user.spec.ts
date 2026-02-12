@@ -7,7 +7,7 @@ const logger = new RequestLogger();
 test("Create user", async ({ request }) => {
   const http = new HttpHandler(request, logger);
   const payload = {
-    nome: faker.person.firstName(),
+    name: faker.person.firstName(),
     email: faker.number.int({ min: 1, max: 9999 }) + faker.internet.email(),
     password: "teste",
   };
