@@ -3,6 +3,7 @@ import { CreateUserDto } from "./dto/create-user.dto";
 import { RequestLogger } from "../../helpers/log/request.logger";
 import { IRequestLogger } from "../../helpers/interfaces/IRequest.logger";
 import { configDotenv } from "dotenv";
+import { LoginDto } from "./dto/login.dto";
 
 configDotenv();
 
@@ -19,6 +20,18 @@ export class Users {
     async createNewUser(body: CreateUserDto) {
         const response = await this.requestContext.post(
             `${this.usersAPIURL}/register`,
+            { data: body },
+        );
+
+        this.logger.logApiRequest(response, body);
+
+        const jsonResponse = await response.json();
+        return { response, jsonResponse };
+    }
+
+    async login(body: LoginDto) {
+        const response = await this.requestContext.post(
+            `${this.usersAPIURL}/login`,
             { data: body },
         );
 

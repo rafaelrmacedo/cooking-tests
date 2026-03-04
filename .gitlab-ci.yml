@@ -1,8 +1,8 @@
+# TODO
 stages:
-  - download_backend_image
-  - run_tests
+  - pull_backend_image
+  - api_tests
 
-download_backend_image:
+pull_backend_image:
 
-
-run_tests:
+api_tests:
