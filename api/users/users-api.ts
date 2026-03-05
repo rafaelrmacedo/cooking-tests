@@ -38,6 +38,24 @@ export class Users {
         this.logger.logApiRequest(response, body);
 
         const jsonResponse = await response.json();
+        const accessToken = jsonResponse.access_token;
+
+        return { response, jsonResponse, accessToken }
+    }
+
+    async profileInfo(accessToken: string) {
+        const response = await this.requestContext.get(
+            `${this.usersAPIURL}/profile`,
+            { 
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            },
+        );
+
+        this.logger.logApiRequest(response, accessToken);
+
+        const jsonResponse = await response.json();
         return { response, jsonResponse };
     }
 }
