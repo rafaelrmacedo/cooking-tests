@@ -4,12 +4,12 @@ import { HttpHandler } from "../../helpers/handler/http-handler";
 import { RequestLogger } from "../../helpers/log/request.logger";
 const logger = new RequestLogger();
 
-test.only("Get profile info", async ({ request }) => {
+test("Get profile info", async ({ request }) => {
   const http = new HttpHandler(request, logger);
   const newUser = {
     name: faker.person.firstName(),
     email: faker.number.int({ min: 1, max: 9999 }) + faker.internet.email(),
-    password: "teste",
+    password: "teste123123",
   };
 
   await http.onUsersApi().createNewUser(newUser);

@@ -10,7 +10,7 @@ test("Login", async ({ request }) => {
   const newUser = {
     name: faker.person.firstName(),
     email: faker.number.int({ min: 1, max: 9999 }) + faker.internet.email(),
-    password: "teste",
+    password: "teste123123",
   };
 
   await http.onUsersApi().createNewUser(newUser);
