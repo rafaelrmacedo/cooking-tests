@@ -38,15 +38,19 @@ export class Users {
         this.logger.logApiRequest(response, body);
 
         const jsonResponse = await response.json();
-        const accessToken = jsonResponse.access_token;
+        let accessToken: string | undefined;
+
+        if (jsonResponse.access_token) {
+            accessToken = jsonResponse.access_token;
+        }
 
         return { response, jsonResponse, accessToken }
     }
 
-    async profileInfo(accessToken: string) {
+    async profileInfo(accessToken: string | undefined) {
         const response = await this.requestContext.get(
             `${this.usersAPIURL}/profile`,
-            { 
+            {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
                 }
