@@ -41,3 +41,25 @@ test("Login - Failure (Invalid password)", async ({ request }) => {
   expect(response.response.status()).toBe(401);
   expect(response.jsonResponse.message).toContain("Invalid credentials");
 });
+
+test("Login - Failure (Inexistent email)", async ({ request }) => {
+  const http = new HttpHandler(request, logger);
+
+  const newUser = {
+    name: faker.person.firstName(),
+    email: faker.number.int({ min: 1, max: 9999 }) + faker.internet.email(),
+    password: "teste123123",
+  };
+
+  await http.onUsersApi().createNewUser(newUser);
+
+  const inexistentEmailUser = {
+    email: "emailemail@test.com",
+    password: "teste123123",
+  };
+
+  const response = await http.onUsersApi().login(inexistentEmailUser);
+
+  expect(response.response.status()).toBe(401);
+  expect(response.jsonResponse.message).toContain("Invalid credentials");
+});
