@@ -46,3 +46,19 @@ test("Create user - Failure (Weak password)", async ({ request }) => {
   expect(response.response.status()).toBe(400);
   expect(response.jsonResponse.message).toContain("password too weak");
 });
+
+test("Create user - Failure (Duplicate email)", async ({ request }) => {
+  const http = new HttpHandler(request, logger);
+  const payload = {
+    name: "teste",
+    email: faker.number.int({ min: 1, max: 9999 }) + faker.internet.email(),
+    password: "teste123123",
+  };
+
+  await http.onUsersApi().createNewUser(payload);
+
+  const response = await http.onUsersApi().createNewUser(payload);
+
+  expect(response.response.status()).toBe(401);
+  expect(response.jsonResponse.message).toContain("already exists");
+});
