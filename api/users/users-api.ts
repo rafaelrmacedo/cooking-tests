@@ -4,6 +4,7 @@ import { RequestLogger } from "../../helpers/log/request.logger";
 import { IRequestLogger } from "../../helpers/interfaces/IRequest.logger";
 import { configDotenv } from "dotenv";
 import { LoginDto } from "./dto/login.dto";
+import { DeleteDto } from "./dto/delete-user.dto";
 
 configDotenv();
 
@@ -61,5 +62,20 @@ export class Users {
 
         const jsonResponse = await response.json();
         return { response, jsonResponse };
+    }
+
+    async deleteUser(data: DeleteDto) {
+        const response = await this.requestContext.delete(
+            `${this.usersAPIURL}/${data.email}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${data.accessToken}`
+                }
+            }
+        );
+
+        this.logger.logApiRequest(response);
+
+        return { response };
     }
 }
