@@ -1,15 +1,12 @@
-import test, { expect } from "@playwright/test";
+import { test } from '../../helpers/fixtures/test.fixture';
+import { expect } from "@playwright/test";
 import { faker } from "@faker-js/faker";
-import { HttpHandler } from "../../helpers/handler/http-handler";
-import { RequestLogger } from "../../helpers/log/request.logger";
 import { CreateUserDto } from "../../api/users/dto/create-user.dto";
-const logger = new RequestLogger();
 
 let createdUser: CreateUserDto;
 let accessToken: string;
 
-test.beforeEach(async ({ request }) => {
-  const http = new HttpHandler(request, logger);
+test.beforeEach(async ({ http }) => {
   createdUser = {
     name: faker.person.firstName(),
     email: faker.number.int({ min: 1, max: 9999 }) + faker.internet.email(),
@@ -21,24 +18,21 @@ test.beforeEach(async ({ request }) => {
   accessToken = loginResponse.accessToken ?? "";
 });
 
-test.afterEach(async ({ request }) => {
-  const http = new HttpHandler(request, logger);
+test.afterEach(async ({ http }) => {
   await http.onUsersApi().deleteUser({
     email: createdUser.email,
     accessToken,
   });
 });
 
-test("Get profile info", async ({ request }) => {
-  const http = new HttpHandler(request, logger);
+test("Get profile info", async ({ http }) => {
   const response = await http.onUsersApi().profileInfo(accessToken);
 
   expect(response.response.status()).toBe(200);
   expect(response.jsonResponse.email).toBe(createdUser.email);
 });
 
-test("Get profile info - Failure (Malformed token)", async ({ request }) => {
-  const http = new HttpHandler(request, logger);
+test("Get profile info - Failure (Malformed token)", async ({ http }) => {
   const response = await http.onUsersApi().profileInfo("teste");
 
   expect(response.response.status()).toBe(401);
