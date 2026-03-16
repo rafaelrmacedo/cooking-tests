@@ -1,10 +1,7 @@
-import test, { expect } from "@playwright/test";
+import { test } from '../../helpers/fixtures/test.fixture';
 import { faker } from "@faker-js/faker";
-import { HttpHandler } from "../../helpers/handler/http-handler";
-import { RequestLogger } from "../../helpers/log/request.logger";
 import { CreateUserDto } from "../../api/users/dto/create-user.dto";
-
-const logger = new RequestLogger();
+import { expect } from '@playwright/test';
 
 let createdUser: CreateUserDto;
 
@@ -16,9 +13,8 @@ test.beforeEach(() => {
   };
 });
 
-test.afterEach(async ({ request }) => {
+test.afterEach(async ({ http }) => {
   if (!createdUser?.email) return;
-  const http = new HttpHandler(request, logger);
   const { response } = await http.onUsersApi().deleteUser({
     email: createdUser.email,
     accessToken: "",
@@ -29,15 +25,13 @@ test.afterEach(async ({ request }) => {
   }
 });
 
-test("Create user - Success", async ({ request }) => {
-  const http = new HttpHandler(request, logger);
+test("Create user - Success", async ({ http }) => {
   const response = await http.onUsersApi().createNewUser(createdUser);
 
   expect(response.response.status()).toBe(201);
 });
 
-test("Create user - Failure (Invalid email)", async ({ request }) => {
-  const http = new HttpHandler(request, logger);
+test("Create user - Failure (Invalid email)", async ({ http }) => {
   const payload = { ...createdUser, email: faker.number.int({ min: 1, max: 9999 }).toString() };
   const response = await http.onUsersApi().createNewUser(payload);
 
@@ -45,8 +39,7 @@ test("Create user - Failure (Invalid email)", async ({ request }) => {
   expect(response.jsonResponse.message).toContain("email must be an email");
 });
 
-test("Create user - Failure (Weak password)", async ({ request }) => {
-  const http = new HttpHandler(request, logger);
+test("Create user - Failure (Weak password)", async ({ http }) => {
   const payload = { ...createdUser, password: "1231231234" };
   const response = await http.onUsersApi().createNewUser(payload);
 
@@ -54,8 +47,7 @@ test("Create user - Failure (Weak password)", async ({ request }) => {
   expect(response.jsonResponse.message).toContain("password too weak");
 });
 
-test("Create user - Failure (Duplicate email)", async ({ request }) => {
-  const http = new HttpHandler(request, logger);
+test("Create user - Failure (Duplicate email)", async ({ http }) => {
   await http.onUsersApi().createNewUser(createdUser);
   const response = await http.onUsersApi().createNewUser(createdUser);
 
