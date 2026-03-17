@@ -1,23 +1,19 @@
 import { test } from '../../helpers/fixtures/test.fixture';
-import { faker } from "@faker-js/faker";
 import { CreateUserDto } from "../../api/users/dto/create-user.dto";
 import { expect } from '@playwright/test';
+import { UserFactory } from '../../helpers/factory/user.factory';
 
 let createdUser: CreateUserDto;
 
-test.beforeEach(() => {
-  createdUser = {
-    name: faker.person.firstName(),
-    email: faker.number.int({ min: 1, max: 9999 }) + faker.internet.email(),
-    password: "teste123123",
-  };
+test.beforeEach(async ({ http }) => {
+  createdUser = await UserFactory.create(http);
 });
 
 test.afterEach(async ({ http }) => {
   if (!createdUser?.email) return;
   const { response } = await http.onUsersApi().deleteUser({
     email: createdUser.email,
-    accessToken: "",
+    accessToken: (await http.onUsersApi().login(createdUser)).accessToken ?? "",
   });
 
   if (response.status() !== 204 && response.status() !== 404) {
@@ -26,13 +22,15 @@ test.afterEach(async ({ http }) => {
 });
 
 test("Create user - Success", async ({ http }) => {
-  const response = await http.onUsersApi().createNewUser(createdUser);
+  const user = UserFactory.buildValidUser();
+
+  const response = await http.onUsersApi().createNewUser(user);
 
   expect(response.response.status()).toBe(201);
 });
 
 test("Create user - Failure (Invalid email)", async ({ http }) => {
-  const payload = { ...createdUser, email: faker.number.int({ min: 1, max: 9999 }).toString() };
+  const payload = { ...createdUser, email: "invalid-email" };
   const response = await http.onUsersApi().createNewUser(payload);
 
   expect(response.response.status()).toBe(400);

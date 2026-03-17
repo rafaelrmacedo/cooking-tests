@@ -1,19 +1,14 @@
+import { CreateUserDto } from '../../api/users/dto/create-user.dto';
+import { UserFactory } from '../../helpers/factory/user.factory';
 import { test } from '../../helpers/fixtures/test.fixture';
 import { expect } from "@playwright/test";
-import { faker } from "@faker-js/faker";
-import { CreateUserDto } from "../../api/users/dto/create-user.dto";
 
 let createdUser: CreateUserDto;
 let accessToken: string;
 
 test.beforeEach(async ({ http }) => {
-  createdUser = {
-    name: faker.person.firstName(),
-    email: faker.number.int({ min: 1, max: 9999 }) + faker.internet.email(),
-    password: "teste123123",
-  };
+  createdUser = await UserFactory.create(http);
 
-  await http.onUsersApi().createNewUser(createdUser);
   const loginResponse = await http.onUsersApi().login(createdUser);
   accessToken = loginResponse.accessToken ?? "";
 });
@@ -33,8 +28,8 @@ test("Get profile info", async ({ http }) => {
 });
 
 test("Get profile info - Failure (Malformed token)", async ({ http }) => {
-  const response = await http.onUsersApi().profileInfo("teste");
+  const response = await http.onUsersApi().profileInfo("invalid-token");
 
   expect(response.response.status()).toBe(401);
-  expect(response.jsonResponse.message).toBe("Unauthorized")
+  expect(response.jsonResponse.message).toBe("Unauthorized");
 });

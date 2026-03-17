@@ -1,17 +1,12 @@
 import { test } from '../../helpers/fixtures/test.fixture';
 import { expect } from "@playwright/test";
-import { faker } from "@faker-js/faker";
 import { CreateUserDto } from "../../api/users/dto/create-user.dto";
+import { UserFactory } from '../../helpers/factory/user.factory';
 
 let createdUser: CreateUserDto;
 
 test.beforeEach(async ({ http }) => {
-  createdUser = {
-    name: faker.person.firstName(),
-    email: faker.number.int({ min: 1, max: 9999 }) + faker.internet.email(),
-    password: "teste123123",
-  };
-  await http.onUsersApi().createNewUser(createdUser);
+  createdUser = await UserFactory.create(http);
 });
 
 test.afterEach(async ({ http }) => {
@@ -22,7 +17,7 @@ test.afterEach(async ({ http }) => {
   });
 });
 
-test("Login", async ({ http }) => {
+test("Login - Success", async ({ http }) => {
   const response = await http.onUsersApi().login(createdUser);
   
   expect(response.response.status()).toBe(201);
