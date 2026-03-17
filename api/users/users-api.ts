@@ -2,11 +2,8 @@ import { APIRequestContext } from "@playwright/test";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { RequestLogger } from "../../helpers/log/request.logger";
 import { IRequestLogger } from "../../helpers/interfaces/IRequest.logger";
-import { configDotenv } from "dotenv";
 import { LoginDto } from "./dto/login.dto";
 import { DeleteDto } from "./dto/delete-user.dto";
-
-configDotenv();
 
 export class Users {
     protected readonly requestContext: APIRequestContext;
