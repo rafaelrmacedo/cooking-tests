@@ -21,3 +21,5 @@ jobs:
       #   run: pnpm exec playwright install --with-deps
       - name: Run Playwright tests
         run: pnpm exec playwright test
+        env:
+          API_URL: http://127.0.0.1:3000
