@@ -1,8 +1,0 @@
-# TODO
-stages:
-  - pull_backend_image
-  - api_tests
-
-pull_backend_image:
-
-api_tests:
