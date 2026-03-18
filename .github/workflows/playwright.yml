@@ -1,17 +1,6 @@
-name: Playwright Tests
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
 jobs:
   test:
-    timeout-minutes: 60
     runs-on: self-hosted
-    container:
-      image: node:20-alpine
-    permissions:
-      contents: read
     steps:
       - uses: actions/checkout@v4
       - name: Setup pnpm
@@ -20,30 +9,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
-      - name: Install Playwright system dependencies (Arch Linux)
-        run: |
-          sudo pacman -Sy --noconfirm \
-            chromium \
-            nss \
-            nspr \
-            atk \
-            at-spi2-atk \
-            libdrm \
-            libxcomposite \
-            libxdamage \
-            libxfixes \
-            libxrandr \
-            libgbm \
-            libxkbcommon \
-            pango \
-            cairo \
-            alsa-lib \
-            mesa
-
       - name: Install Playwright browsers
-        run: pnpm exec playwright install chromium
+        run: pnpm exec playwright install --with-deps
       - name: Run Playwright tests
         run: pnpm exec playwright test
