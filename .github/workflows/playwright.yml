@@ -23,7 +23,27 @@ jobs:
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
+      - name: Install Playwright system dependencies (Arch Linux)
+        run: |
+          sudo pacman -Sy --noconfirm \
+            chromium \
+            nss \
+            nspr \
+            atk \
+            at-spi2-atk \
+            libdrm \
+            libxcomposite \
+            libxdamage \
+            libxfixes \
+            libxrandr \
+            libgbm \
+            libxkbcommon \
+            pango \
+            cairo \
+            alsa-lib \
+            mesa
+
       - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps
+        run: pnpm exec playwright install chromium
       - name: Run Playwright tests
         run: pnpm exec playwright test
