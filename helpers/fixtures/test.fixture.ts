@@ -1,10 +1,7 @@
 import { test as base } from '@playwright/test';
 import { HttpHandler } from '../handler/http-handler';
 import { RequestLogger } from '../log/request.logger';
-
-type TestFixtures = {
-  http: HttpHandler;
-};
+import { TestFixtures } from '../types/test-fixtures.type';
 
 export const test = base.extend<TestFixtures>({
   http: async ({ request }, use) => {
