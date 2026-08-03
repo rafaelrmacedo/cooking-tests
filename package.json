@@ -1,6 +1,9 @@
 {
   "name": "@rafael_dev/playwright-api-framework",
-  "version": "1.0.1",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "version": "1.0.2",
   "description": "Reusable Playwright API Testing Framework with HttpHandler, Contract Validation, and Logging",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -29,6 +32,14 @@
   ],
   "author": "Rafael R. Macedo",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rafaelrmacedo/playwright-api-framework.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rafaelrmacedo/playwright-api-framework/issues"
+  },
+  "homepage": "https://github.com/rafaelrmacedo/playwright-api-framework#readme",
   "packageManager": "pnpm@10.32.1",
   "peerDependencies": {
     "@playwright/test": ">=1.40.0"
