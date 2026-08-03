@@ -33,6 +33,9 @@ importers:
       js-yaml:
         specifier: ^4.1.1
         version: 4.1.1
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
 
 packages:
 
@@ -101,6 +104,11 @@ packages:
     resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
     engines: {node: '>=0.10.0'}
 
+  typescript@5.9.3:
+    resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
   undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
 
@@ -155,5 +163,7 @@ snapshots:
       fsevents: 2.3.2
 
   require-from-string@2.0.2: {}
+
+  typescript@5.9.3: {}
 
   undici-types@7.16.0: {}

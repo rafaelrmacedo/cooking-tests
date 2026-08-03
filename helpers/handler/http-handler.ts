@@ -1,20 +1,28 @@
 import { APIRequestContext } from "@playwright/test";
 import { RequestLogger } from "../log/request.logger";
-import { Users } from "../../api/users/users-api";
 
 export class HttpHandler {
   private readonly requestContext: APIRequestContext;
   private readonly logger: RequestLogger;
-  private readonly usersApi: Users;
+  private readonly instances = new Map<any, any>();
 
-  // cada endpoint class tem que ser tratado como argumento como um RequestManager e adicionado aqui
-  constructor(requestContext: APIRequestContext, logger: RequestLogger) {
+  constructor(requestContext: APIRequestContext, logger?: RequestLogger) {
     this.requestContext = requestContext;
-    this.logger = logger;
-    this.usersApi = new Users(requestContext, logger);
+    this.logger = logger ?? new RequestLogger();
   }
 
-  onUsersApi() {
-    return this.usersApi;
+  get context(): APIRequestContext {
+    return this.requestContext;
+  }
+
+  get getLogger(): RequestLogger {
+    return this.logger;
+  }
+
+  api<T>(ApiClass: new (context: APIRequestContext, logger: RequestLogger) => T): T {
+    if (!this.instances.has(ApiClass)) {
+      this.instances.set(ApiClass, new ApiClass(this.requestContext, this.logger));
+    }
+    return this.instances.get(ApiClass);
   }
 }

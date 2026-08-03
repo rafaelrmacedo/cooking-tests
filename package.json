@@ -1,11 +1,33 @@
 {
-  "name": "cooking-tests",
+  "name": "@rafaelrmacedo/playwright-api-framework",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {},
-  "keywords": [],
-  "author": "",
+  "description": "Reusable Playwright API Testing Framework with HttpHandler, Contract Validation, and Logging",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "pnpm run clean && tsc",
+    "prepublishOnly": "pnpm run build",
+    "test": "playwright test"
+  },
+  "keywords": [
+    "playwright",
+    "api-testing",
+    "framework",
+    "e2e",
+    "contract-testing"
+  ],
+  "author": "Rafael R. Macedo",
   "license": "ISC",
   "packageManager": "pnpm@10.32.1",
   "devDependencies": {
@@ -14,7 +36,8 @@
     "@types/node": "^25.2.0",
     "ajv": "^8.18.0",
     "ajv-formats": "^3.0.1",
-    "js-yaml": "^4.1.1"
+    "js-yaml": "^4.1.1",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "@faker-js/faker": "^10.3.0",
