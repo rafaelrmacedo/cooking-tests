@@ -1,0 +1,12 @@
+# Ignore source files and dev configs from NPM package, keep dist/
+node_modules
+api/
+tests/
+helpers/
+global-setup.ts
+openapi.yaml
+playwright.config.ts
+tsconfig.json
+pnpm-lock.yaml
+.github/
+.git/
