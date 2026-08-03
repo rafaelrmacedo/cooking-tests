@@ -1,5 +1,5 @@
 {
-  "name": "@rafaelrmacedo/playwright-api-framework",
+  "name": "@rafael_dev/playwright-api-framework",
   "version": "1.0.0",
   "description": "Reusable Playwright API Testing Framework with HttpHandler, Contract Validation, and Logging",
   "main": "./dist/index.js",
