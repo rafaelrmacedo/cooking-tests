@@ -30,6 +30,9 @@
   "author": "Rafael R. Macedo",
   "license": "ISC",
   "packageManager": "pnpm@10.32.1",
+  "peerDependencies": {
+    "@playwright/test": ">=1.40.0"
+  },
   "devDependencies": {
     "@playwright/test": "^1.58.1",
     "@types/js-yaml": "^4.0.9",
