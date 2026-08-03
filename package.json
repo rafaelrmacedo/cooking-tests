@@ -1,7 +1,8 @@
 {
   "name": "@rafael_dev/playwright-api-framework",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
   },
   "version": "1.0.2",
   "description": "Reusable Playwright API Testing Framework with HttpHandler, Contract Validation, and Logging",
